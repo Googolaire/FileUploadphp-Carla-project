@@ -41,6 +41,8 @@ if (isset($_POST['submit'])) {
         if ($fileError === 0) {
             if ($fileSize < 200000000) {
                 $fileNameNew = uniqid('', true).".".$fileActualExt;
+                $sql = "INSERT INTO Styles (img_name, style_category, style_found, img_added)  VALUES ($img_nam.$$fileNameNew, '$style_category', '$style_found', '$img_added');";
+                mysqli_query($conn,$sql);
                 $fileDestination = $_SERVER['DOCUMENT_ROOT'].'/styleuploads/';
                 $moved = move_uploaded_file($fileTmpName, $fileDestination.$img_name.".".$fileNameNew);
                 header("Location: index.php?uploadyay");
