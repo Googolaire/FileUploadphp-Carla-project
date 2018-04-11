@@ -1,29 +1,22 @@
 <?php 
 ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
-$servername = 'localhost';
-$db_username = 'carlamaster';
-$db_pass = 'C@Rl@Styl3Master';
-$dbname = 'fashioncoordinators';
+
+if (isset($_POST['submit'])) {
+	$servername = 'localhost';
+$db_username = 'root';
+$db_pass = '';
+$dbname = 'fileupload';
 // Other POST elements
 $img_name = $_POST["img_name"];
 $style_category = $_POST["style_category"];
 $style_found = $_POST["style_found"];
 $img_added = $_POST["img_added"];
-
 $conn = new mysqli($servername, $db_username, $db_pass, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
-$sql = "INSERT INTO Styles (img_name, style_category, style_found, img_added)  VALUES ('$img_name', '$style_category', '$style_found', '$img_added');";
-
-if ($conn->query($sql) === TRUE) {
-    header("location: index.php?Subed&uploaded");
-}
-
-if (isset($_POST['submit'])) {
     $file = $_FILES['file'];
 
     $fileName = $_FILES['file']['name'];
@@ -41,9 +34,15 @@ if (isset($_POST['submit'])) {
         if ($fileError === 0) {
             if ($fileSize < 200000000) {
                 $fileNameNew = uniqid('', true).".".$fileActualExt;
+                $sql = "INSERT INTO Styles (img_name, style_category, style_found, img_added)  VALUES ($img_name.$fileNameNew, '$style_category', '$style_found', '$img_added');";
+                var_dump($sql);
+                mysqli_query($conn,$sql);
+
+
+
                 $fileDestination = $_SERVER['DOCUMENT_ROOT'].'/styleuploads/';
                 $moved = move_uploaded_file($fileTmpName, $fileDestination.$img_name.".".$fileNameNew);
-                header("Location: index.php?uploadyay");
+                //header("Location: index.php?uploadyay");
                 exit;
             } else echo "Opps, your file is too big! It needs to be smaller than 200 Megabytes";
         } else {
