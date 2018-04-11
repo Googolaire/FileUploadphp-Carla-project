@@ -34,7 +34,7 @@ if ($conn->connect_error) {
         if ($fileError === 0) {
             if ($fileSize < 200000000) {
                 $fileNameNew = uniqid('', true).".".$fileActualExt;
-                $sql = "INSERT INTO Styles (img_name, style_category, style_found, img_added)  VALUES ($img_name.$fileNameNew, '$style_category', '$style_found', '$img_added');";
+                $sql = "INSERT INTO Styles (img_name, style_category, style_found, img_added)  VALUES ('$img_name.$fileNameNew', '$style_category', '$style_found', '$img_added');";
                 var_dump($sql);
                 mysqli_query($conn,$sql);
 
